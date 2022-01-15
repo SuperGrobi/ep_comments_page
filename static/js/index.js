@@ -916,7 +916,24 @@ EpComments.prototype.displayNewCommentForm = function () {
   }
 
   // Adjust focus on the form
-  $('#newComment').find('.comment-content').focus();
+  const comment_content = $('#newComment').find('.comment-content')
+  const iterations = 100  // how often we try to focus
+  const timestep = 25 // how long we wait between trys
+  var i = 0
+  /* try to shift focus to the new text field. This is (I believe) nessecary because
+  of some timing problems with the reveal animation, where we try to focus the field
+  before it is visible, which is not allowed. Usually it takes about three to four
+  iterations (75 to 100ms) until the focus gets changed.
+  */ 
+  var focusInterval = setInterval(()=>{
+    if(!comment_content.is(":focus") && i <= iterations){
+      comment_content.focus()
+      i++
+    }
+    else{
+      clearInterval(focusInterval)
+    }
+  }, timestep)
 };
 
 EpComments.prototype.scrollViewportIfSelectedTextIsNotVisible = function ($firstSelectedElement) {
