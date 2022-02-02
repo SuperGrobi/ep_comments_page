@@ -73,6 +73,17 @@ const insertNewCommentPopupIfDontExist = (comment, callback) => {
     return submitNewComment(callback);
   });
 
+  // get popup content div and add listener on transition end
+  const new_comment_popup_content = document.querySelector('#newComment').children[0]
+  new_comment_popup_content.addEventListener('transitionend', (e) => {
+    // if transition was of visibility and transitioned element was popup content div
+    if (e.propertyName == "visibility" && new_comment_popup_content == e.target){
+      // if new state is visible
+      if(window.getComputedStyle(new_comment_popup_content).visibility == "visible"){
+        $newComment.find('.comment-content').focus()
+      }
+    }
+  })
   return $newComment;
 };
 
