@@ -74,16 +74,15 @@ const insertNewCommentPopupIfDontExist = (comment, callback) => {
   });
 
   // get popup content div and add listener on transition end
-  const new_comment_popup_content = document.querySelector('#newComment').children[0]
-  new_comment_popup_content.addEventListener('transitionend', (e) => {
-    // if transition was of visibility and transitioned element was popup content div
-    if (e.propertyName == "visibility" && new_comment_popup_content == e.target){
-      // if new state is visible
-      if(window.getComputedStyle(new_comment_popup_content).visibility == "visible"){
-        $newComment.find('.comment-content').focus()
-      }
+  const content = $newComment.find('.popup-content')[0];
+  content.addEventListener('transitionend', (e) => {
+    // if transition was of visibility and transitioned element was popup content div and new state
+    // is visible
+    if (e.propertyName === 'visibility' && content === e.target &&
+        window.getComputedStyle(content).visibility === 'visible') {
+      $newComment.find('.comment-content').focus();
     }
-  })
+  });
   return $newComment;
 };
 
