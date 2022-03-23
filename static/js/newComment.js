@@ -73,16 +73,6 @@ const insertNewCommentPopupIfDontExist = (comment, callback) => {
     return submitNewComment(callback);
   });
 
-  // get popup content div and add listener on transition end
-  const content = $newComment.find('.popup-content')[0];
-  content.addEventListener('transitionend', (e) => {
-    // if transition was of visibility and transitioned element was popup content div and new state
-    // is visible
-    if (e.propertyName === 'visibility' && content === e.target &&
-        window.getComputedStyle(content).visibility === 'visible') {
-      $newComment.find('.comment-content').focus();
-    }
-  });
   return $newComment;
 };
 
@@ -105,6 +95,7 @@ const showNewCommentPopup = (position) => {
 
   // Show popup
   $newComment.addClass('popup-show');
+  $newComment.find('.comment-content').focus();
 
   // mark selected text, so it is clear to user which text range the comment is being applied to
   pad.plugins.ep_comments_page.preCommentMarker.markSelectedText();
